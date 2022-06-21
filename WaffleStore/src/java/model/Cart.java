@@ -13,12 +13,12 @@ import lombok.ToString;
  *
  * @author DELL
  */
-
 @Builder
 @Getter
 @Setter
 @ToString
 public class Cart {
+
     private Product product;
     private int quantity; //số lượng trên giỏ hàng
 }

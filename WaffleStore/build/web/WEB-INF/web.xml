@@ -20,6 +20,22 @@
         <servlet-name>AddToCartController</servlet-name>
         <servlet-class>controller.AddToCartController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CartController</servlet-name>
+        <servlet-class>controller.CartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCartController</servlet-name>
+        <servlet-class>controller.DeleteCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartQuantityController</servlet-name>
+        <servlet-class>controller.UpdateCartQuantityController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PayController</servlet-name>
+        <servlet-class>controller.PayController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -39,6 +55,22 @@
     <servlet-mapping>
         <servlet-name>AddToCartController</servlet-name>
         <url-pattern>/add-to-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartController</servlet-name>
+        <url-pattern>/carts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCartController</servlet-name>
+        <url-pattern>/delete-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartQuantityController</servlet-name>
+        <url-pattern>/update-quantity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PayController</servlet-name>
+        <url-pattern>/pay</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
