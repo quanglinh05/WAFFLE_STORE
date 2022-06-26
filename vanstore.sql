@@ -152,6 +152,31 @@ insert into Product (id, [name], quantity, price, [description], imageUrl, categ
 insert into Product (id, [name], quantity, price, [description], imageUrl, category_id) values (30, N'Vans Vault Authentic Sweet Leaf Green', 8, 54.8, N'Pressure ulcer of head', N'https://bizweb.dktcdn.net/thumb/medium/100/422/387/products/5a4d152a-2d83-401b-81e5-8ac372170e37.jpg?v=1625739728000', 5);
 SET IDENTITY_INSERT [dbo].[product] OFF
 
+go
+alter table OrderDetail with check add constraint FK_OrderDeta_order_30F848ED foreign key (order_id)
+references Orders (id)
+go
+alter table OrderDetail check constraint FK_OrderDeta_order_30F848ED
+go
+alter table Orders with check add constraint FK_Orders_account_2F10007B foreign key (account_id)
+references Account (id)
+go
+alter table Orders check constraint FK_Orders_account_2F10007B
+go
+alter table Orders with check add constraint FK_Orders_shipping_30042484 foreign key (shipping_id)
+references Shipping (id)
+go
+alter table Orders check constraint FK_Orders_shipping_30042484
+go
+alter table Product with check add constraint FK_Product_categor_267ABA7A foreign key (category_id)
+references Category (id)
+go
+alter table Product check constraint FK_Product_categor_267ABA7A
+go 
+use master
+go
+alter database VansStore set read_write
+go
 
 
 
