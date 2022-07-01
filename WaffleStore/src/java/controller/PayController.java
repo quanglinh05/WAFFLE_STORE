@@ -96,6 +96,21 @@ public class PayController extends HttpServlet {
         int shippingId = new ShippingDAO().createReturnId(shipping); //trả về id tự tăng của bản ghi vừa lưu vào database
         
         //luu Order
+        HttpSession session = request.getSession();
+            Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
+            if (carts == null) {
+                carts = new LinkedHashMap<>();
+            }
+            //tính tổng tiền
+            double totalPrice = 0;
+            for (Map.Entry<Integer, Cart> entry : carts.entrySet()) {
+                Object productId = entry.getKey();
+                Cart cart = entry.getValue();
+                totalPrice += cart.getQuantity() * cart.getProduct().getPrice();
+            }
+        Order order = Order.builder()
+                .accountId(1)
+                .totalPrice(totalPrice).build();
         
         //luu OrderDetail
         
