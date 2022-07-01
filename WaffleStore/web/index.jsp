@@ -25,11 +25,11 @@
     <body>
         <%@include file="components/navBarComponent.jsp" %>
         <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-dark py-5" style="width: 100%">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">WANGLING WAFFLE</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    <h1 class="display-4 fw-bolder" style="font-size: 100px; width: 100%">WANGLING WAFFLE</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Follow us !</p>
                 </div>
             </div>
         </header>
