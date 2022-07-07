@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dal.OrderDAO;
+import dal.OrderDetailDAO;
 import dal.ShippingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import model.Cart;
+import model.Order;
 import model.Shipping;
 
 /**
@@ -35,6 +38,8 @@ public class PayController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
@@ -80,13 +85,14 @@ public class PayController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         String note = request.getParameter("note");
-        
+
         //luu vao database
-        
         //luu Shipping
         Shipping shipping = Shipping.builder()
                 .name(name)
@@ -94,26 +100,34 @@ public class PayController extends HttpServlet {
                 .address(address)
                 .build();
         int shippingId = new ShippingDAO().createReturnId(shipping); //trả về id tự tăng của bản ghi vừa lưu vào database
-        
+
         //luu Order
         HttpSession session = request.getSession();
-            Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
-            if (carts == null) {
-                carts = new LinkedHashMap<>();
-            }
-            //tính tổng tiền
-            double totalPrice = 0;
-            for (Map.Entry<Integer, Cart> entry : carts.entrySet()) {
-                Object productId = entry.getKey();
-                Cart cart = entry.getValue();
-                totalPrice += cart.getQuantity() * cart.getProduct().getPrice();
-            }
+        Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
+        if (carts == null) {
+            carts = new LinkedHashMap<>();
+        }
+        //tính tổng tiền
+        double totalPrice = 0;
+        for (Map.Entry<Integer, Cart> entry : carts.entrySet()) {
+            Object productId = entry.getKey();
+            Cart cart = entry.getValue();
+            totalPrice += cart.getQuantity() * cart.getProduct().getPrice();
+        }
         Order order = Order.builder()
                 .accountId(1)
-                .totalPrice(totalPrice).build();
-        
+                .totalPrice(shippingId)
+                .totalPrice(totalPrice)
+                .note(note)
+                .shippingId(shippingId)
+                .build();
+        int orderId = new OrderDAO().createReturnId(order);
         //luu OrderDetail
-        
+
+        new OrderDetailDAO().saveCart(orderId, carts);
+
+        session.removeAttribute("carts");
+        response.sendRedirect("thanks");
     }
 
     /**
