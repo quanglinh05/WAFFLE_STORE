@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import model.Account;
 import model.Cart;
 import model.Product;
 
@@ -37,9 +38,9 @@ public class AddToCartController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
             int productId = Integer.parseInt(request.getParameter("productId"));
             //map   productId | cart
-            HttpSession session = request.getSession();
             Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
             if (carts == null) {
                 carts = new LinkedHashMap<>();

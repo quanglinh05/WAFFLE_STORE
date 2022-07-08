@@ -32,6 +32,30 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //kiểm tra cookie
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+        String password = null;
+        for (Cookie cooky : cookies) {
+            if (cooky.getName().equals("username")) {
+                username = cooky.getValue();
+            }
+            if (cooky.getName().equals("password")) {
+                password = cooky.getValue();
+            }
+            if (username != null && password != null) {
+                break;
+            }
+        }
+
+        if (username != null && password != null) {
+            Account account = new AccountDAO().login(username, password);
+            if (account != null) { //cookie hợp lệ
+                request.getSession().setAttribute("account", account);
+                response.sendRedirect("home");
+                return;
+            }
+        }
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
