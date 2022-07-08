@@ -4,6 +4,7 @@
     Author     : DELL
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -37,7 +38,15 @@
                     <span class="badge bg-dark text-white ms-1 rounded-pill">${sessionScope.carts.size()}</span>
                 </a>
             </div>
-            <button class="btn btn-outline-primary ms-lg-2">Login</button>
+            <c:choose>
+                <c:when test="${sessionScope.account != null}">
+                    <button class="btn btn-outline-primary ms-lg-2">${sessionScope.account.displayName}</button>
+                    <a href="logout" class="btn btn-outline-primary ms-lg-2">Logout</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="login" class="btn btn-outline-primary ms-lg-2">Login</a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </nav>

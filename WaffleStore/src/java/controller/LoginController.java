@@ -4,12 +4,15 @@
  */
 package controller;
 
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  *
@@ -43,6 +46,32 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Check Login
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        boolean remember = request.getParameter("remember") != null;
+
+        //Check username, password
+        Account account = new AccountDAO().login(username, password);
+        if (account != null) { //hợp lệ >> lưu lên session
+            //remember
+            if (remember) {
+                Cookie usernameCookie = new Cookie("username", username);
+                usernameCookie.setMaxAge(60 * 60 * 24 * 2);
+                Cookie passwordCookie = new Cookie("password", password);
+                usernameCookie.setMaxAge(60 * 60 * 24 * 2);
+                response.addCookie(usernameCookie);
+                response.addCookie(passwordCookie);
+
+            }
+            request.getSession().setAttribute("account", account);
+            response.sendRedirect("home");
+
+            //not remember
+        } else { //không hợp lệ >> trả vể lỗi
+            request.setAttribute("error", "Username or Password incorrect !");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     }
 
     /**
