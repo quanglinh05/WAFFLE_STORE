@@ -3,20 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.sync;
 
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Product;
 
 /**
  *
  * @author DELL
  */
-public class ThanksController extends HttpServlet {
+public class SearchController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,7 +33,11 @@ public class ThanksController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            request.getRequestDispatcher("thanks.jsp").forward(request, response);
+            String keyword = request.getParameter("keyword");
+            List<Product> listProducts = new ProductDAO().search(keyword);
+            
+            request.setAttribute("listProducts", listProducts);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     } 
 

@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.async;
 
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,12 +16,13 @@ import jakarta.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import model.Cart;
+import model.Product;
 
 /**
  *
  * @author DELL
  */
-public class DeleteCartController extends HttpServlet {
+public class AddToCartAsyncController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,18 +36,24 @@ public class DeleteCartController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int productId = Integer.parseInt(request.getParameter("productId"));
             HttpSession session = request.getSession();
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            //map   productId | cart
             Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
             if (carts == null) {
                 carts = new LinkedHashMap<>();
             }
-            
-            if (carts.containsKey(productId)) {
-                carts.remove(productId);
+
+            if (carts.containsKey(productId)) { //sản phẩm đã có trên gió hàng
+                int oldQuantity = carts.get(productId).getQuantity();
+                carts.get(productId).setQuantity(oldQuantity + 1);
+            } else { //sản phẩm chưa có trêng giỏ hàng 
+                Product product = new ProductDAO().getProductById(productId);
+                carts.put(productId, Cart.builder().product(product).quantity(1).build());
             }
+            //lưu carts lên session
             session.setAttribute("carts", carts);
-            response.sendRedirect("carts");
+            response.getWriter().println(carts.size());
         }
     } 
 

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.sync;
 
 import dal.ProductDAO;
 import java.io.IOException;
@@ -11,14 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import model.Product;
 
 /**
  *
  * @author DELL
  */
-public class FilterCategoryController extends HttpServlet {
+public class DetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,13 +32,12 @@ public class FilterCategoryController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-            
-            List<Product> listProducts = new ProductDAO().getProductsByCategoryId(categoryId);
-            
-            request.setAttribute("listProducts", listProducts);
-            
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            Product product = new ProductDAO().getProductById(productId);
+            request.setAttribute("product", product);
+            request.getSession().setAttribute("urlHistory", "detail?productId="+productId);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
         }
     }
 

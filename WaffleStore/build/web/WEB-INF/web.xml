@@ -2,51 +2,59 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>HomeController</servlet-name>
-        <servlet-class>controller.HomeController</servlet-class>
+        <servlet-class>controller.sync.HomeController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FilterCategoryController</servlet-name>
-        <servlet-class>controller.FilterCategoryController</servlet-class>
+        <servlet-class>controller.sync.FilterCategoryController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SearchController</servlet-name>
-        <servlet-class>controller.SearchController</servlet-class>
+        <servlet-class>controller.sync.SearchController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DetailController</servlet-name>
-        <servlet-class>controller.DetailController</servlet-class>
+        <servlet-class>controller.sync.DetailController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddToCartController</servlet-name>
-        <servlet-class>controller.AddToCartController</servlet-class>
+        <servlet-class>controller.sync.AddToCartController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CartController</servlet-name>
-        <servlet-class>controller.CartController</servlet-class>
+        <servlet-class>controller.sync.CartController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteCartController</servlet-name>
-        <servlet-class>controller.DeleteCartController</servlet-class>
+        <servlet-class>controller.sync.DeleteCartController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateCartQuantityController</servlet-name>
-        <servlet-class>controller.UpdateCartQuantityController</servlet-class>
+        <servlet-class>controller.sync.UpdateCartQuantityController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PayController</servlet-name>
-        <servlet-class>controller.PayController</servlet-class>
+        <servlet-class>controller.sync.PayController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ThanksController</servlet-name>
-        <servlet-class>controller.ThanksController</servlet-class>
+        <servlet-class>controller.sync.ThanksController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>controller.LoginController</servlet-class>
+        <servlet-class>controller.sync.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutController</servlet-name>
-        <servlet-class>controller.LogoutController</servlet-class>
+        <servlet-class>controller.sync.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>controller.sync.AdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddToCartAsyncController</servlet-name>
+        <servlet-class>controller.async.AddToCartAsyncController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -95,6 +103,22 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/admin/dashboard</url-pattern>
+    </servlet-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern/>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern/>
+    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartAsyncController</servlet-name>
+        <url-pattern>/add-to-cart-async</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.sync;
 
-import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import model.Account;
 import model.Cart;
-import model.Product;
 
 /**
  *
  * @author DELL
  */
-public class AddToCartController extends HttpServlet {
+public class CartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,27 +36,20 @@ public class AddToCartController extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            //map   productId | cart
             Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
             if (carts == null) {
                 carts = new LinkedHashMap<>();
             }
-
-            if (carts.containsKey(productId)) { //sản phẩm đã có trên gió hàng
-                int oldQuantity = carts.get(productId).getQuantity();
-                carts.get(productId).setQuantity(oldQuantity + 1);
-            } else { //sản phẩm chưa có trêng giỏ hàng 
-                Product product = new ProductDAO().getProductById(productId);
-                carts.put(productId, Cart.builder().product(product).quantity(1).build());
+            //tính tổng tiền
+            double totalMoney = 0;
+            for (Map.Entry<Integer, Cart> entry : carts.entrySet()) {
+                Object productId = entry.getKey();
+                Cart cart = entry.getValue();
+                totalMoney += cart.getQuantity() * cart.getProduct().getPrice();
             }
-            //lưu carts lên session
-            session.setAttribute("carts", carts);
-            String urlHistory = (String) session.getAttribute("urlHistory");
-            if (urlHistory == null) {
-                urlHistory = "home";
-            }
-            response.sendRedirect(urlHistory);
+            request.setAttribute("totalMoney", totalMoney);
+            request.setAttribute("carts", carts);
+            request.getRequestDispatcher("carts.jsp").forward(request, response);
         }
     }
 

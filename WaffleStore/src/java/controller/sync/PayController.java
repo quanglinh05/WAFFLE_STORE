@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.sync;
 
+import dal.OrderDAO;
+import dal.OrderDetailDAO;
+import dal.ShippingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,12 +17,14 @@ import jakarta.servlet.http.HttpSession;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import model.Cart;
+import model.Order;
+import model.Shipping;
 
 /**
  *
  * @author DELL
  */
-public class UpdateCartQuantityController extends HttpServlet {
+public class PayController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,23 +38,24 @@ public class UpdateCartQuantityController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
-            
             HttpSession session = request.getSession();
             Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
             if (carts == null) {
                 carts = new LinkedHashMap<>();
             }
-            
-            if (carts.containsKey(productId)) {
-                carts.get(productId).setQuantity(quantity);
+            //tính tổng tiền
+            double totalMoney = 0;
+            for (Map.Entry<Integer, Cart> entry : carts.entrySet()) {
+                Object productId = entry.getKey();
+                Cart cart = entry.getValue();
+                totalMoney += cart.getQuantity() * cart.getProduct().getPrice();
             }
-            
-            session.setAttribute("carts", carts);
-            response.sendRedirect("carts");
+            request.setAttribute("totalMoney", totalMoney);
+            request.getRequestDispatcher("pay.jsp").forward(request, response);
         }
     }
 
@@ -79,7 +85,49 @@ public class UpdateCartQuantityController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String note = request.getParameter("note");
+
+        //luu vao database
+        //luu Shipping
+        Shipping shipping = Shipping.builder()
+                .name(name)
+                .phone(phone)
+                .address(address)
+                .build();
+        int shippingId = new ShippingDAO().createReturnId(shipping); //trả về id tự tăng của bản ghi vừa lưu vào database
+
+        //luu Order
+        HttpSession session = request.getSession();
+        Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
+        if (carts == null) {
+            carts = new LinkedHashMap<>();
+        }
+        //tính tổng tiền
+        double totalPrice = 0;
+        for (Map.Entry<Integer, Cart> entry : carts.entrySet()) {
+            Object productId = entry.getKey();
+            Cart cart = entry.getValue();
+            totalPrice += cart.getQuantity() * cart.getProduct().getPrice();
+        }
+        Order order = Order.builder()
+                .accountId(1)
+                .totalPrice(shippingId)
+                .totalPrice(totalPrice)
+                .note(note)
+                .shippingId(shippingId)
+                .build();
+        int orderId = new OrderDAO().createReturnId(order);
+        //luu OrderDetail
+
+        new OrderDetailDAO().saveCart(orderId, carts);
+
+        session.removeAttribute("carts");
+        response.sendRedirect("thanks");
     }
 
     /**
