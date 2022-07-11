@@ -40,4 +40,23 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public boolean signUpAccount(String user, String pass, String email) {
+        try {
+            String sql = "INSERT INTO [dbo].[Account]\n"
+                    + "           ([username]\n"
+                    + "           ,[password]\n"
+                    + "           ,[email])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ps.setString(3, email);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+        }
+        return false;
+    }
+    
 }

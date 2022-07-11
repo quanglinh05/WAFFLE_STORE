@@ -24,12 +24,12 @@
 
     <body>
         <%@include file="components/navBarComponent.jsp" %>
-        <!-- Header-->
+        <!-- Header-->                             
         <header class="bg-secondary py-5" style="width: 100%">
             <div class="container px-4 px-lg-4 my-3">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-normal" style="font-size: 70px; width: 100%">WANGLING WAFFLE</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Follow us !</p>
+                    <p class="lead fw-normal text-white-50 mb-0">WELCOME TO OUR VANS - ERA</p>
                 </div>
             </div>
         </header>
@@ -38,7 +38,7 @@
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row">
                 <div class="col-md-3 mb-5">
-                    <h3>List Categories</h3>
+                    <h3>VANS OFF THE WALL</h3>
                     <ul class="list-group">
                         <c:forEach items="${sessionScope.listCategories}" var="C">
                             <li class="list-group-item"><a href="filter-category?categoryId=${C.id}">${C.name}</a></li>
@@ -46,7 +46,6 @@
                     </ul>
                 </div>
                 <div class="col-md-9">
-                    <h3>List Products</h3>
                     <c:choose>
                         <c:when test="${listProducts==null || listProducts.size()==0}">
                             Not Founds

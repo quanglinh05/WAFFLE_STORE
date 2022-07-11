@@ -56,6 +56,10 @@
         <servlet-name>AddToCartAsyncController</servlet-name>
         <servlet-class>controller.async.AddToCartAsyncController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignUpController</servlet-name>
+        <servlet-class>controller.sync.SignUpController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>AddToCartAsyncController</servlet-name>
         <url-pattern>/add-to-cart-async</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUpController</servlet-name>
+        <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
