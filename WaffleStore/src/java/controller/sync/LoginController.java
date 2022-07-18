@@ -51,10 +51,16 @@ public class LoginController extends HttpServlet {
             Account account = new AccountDAO().login(username, password);
             if (account != null) { //cookie hợp lệ
                 request.getSession().setAttribute("account", account);
-                response.sendRedirect("home");
-                return;
+                if (account.getRole().equals(Account.ADMIN)) {
+                    response.sendRedirect("admin");
+                    return;
+                } else {
+                    response.sendRedirect("home");
+                    return;
+                }
             }
         }
+
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
@@ -87,9 +93,15 @@ public class LoginController extends HttpServlet {
                 response.addCookie(passwordCookie);
 
             }
-            request.getSession().setAttribute("account", account);
-            response.sendRedirect("home");
 
+            request.getSession().setAttribute("account", account);
+            if (account.getRole().equals(Account.ADMIN)) {
+                response.sendRedirect("admin");
+                return;
+            } else {
+                response.sendRedirect("home");
+                return;
+            }
             //not remember
         } else { //không hợp lệ >> trả vể lỗi
             request.setAttribute("error", "Username or Password incorrect !");

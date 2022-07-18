@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import model.Product;
 
 /**
@@ -35,6 +37,8 @@ public class DetailController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             int productId = Integer.parseInt(request.getParameter("productId"));
             Product product = new ProductDAO().getProductById(productId);
+            List<Product> listRelatedProducts = new ProductDAO().getRelatedProductById(productId);
+            request.setAttribute("listRelatedProducts", listRelatedProducts);
             request.setAttribute("product", product);
             request.getSession().setAttribute("urlHistory", "detail?productId="+productId);
             request.getRequestDispatcher("detail.jsp").forward(request, response);

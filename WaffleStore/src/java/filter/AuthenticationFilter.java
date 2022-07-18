@@ -23,7 +23,7 @@ import model.Account;
  *
  * @author DELL
  */
-@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/add-to-cart", "/carts", "/pay", "/delete-cart", "/update-quantity", "/admin/*"})
+@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/add-to-cart", "/carts", "/pay", "/delete-cart", "/update-quantity"})
 public class AuthenticationFilter implements Filter {
 
     /**

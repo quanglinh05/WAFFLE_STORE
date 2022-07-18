@@ -11,17 +11,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import model.Cart;
-import model.Product;
 
 /**
  *
  * @author DELL
  */
-public class AddToCartController extends HttpServlet {
+public class DeleteProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +32,15 @@ public class AddToCartController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            //map   productId | cart
-            Map<Integer, Cart> carts = (Map<Integer, Cart>) session.getAttribute("carts");
-            if (carts == null) {
-                carts = new LinkedHashMap<>();
-            }
-
-            if (carts.containsKey(productId)) { //sản phẩm đã có trên gió hàng
-                int oldQuantity = carts.get(productId).getQuantity();
-                carts.get(productId).setQuantity(oldQuantity + 1);
-            } else { //sản phẩm chưa có trên giỏ hàng 
-                Product product = new ProductDAO().getProductById(productId);
-                carts.put(productId, Cart.builder().product(product).quantity(1).build());
-            }
-            //lưu carts lên session
-            session.setAttribute("carts", carts);
-            String urlHistory = (String) session.getAttribute("urlHistory");
-            if (urlHistory == null) {
-                urlHistory = "home";
-            }
-            response.sendRedirect(urlHistory);
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeleteProductController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeleteProductController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -74,7 +56,16 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        String id_raw = request.getParameter("id");
+        int id;
+        try {
+            id = Integer.parseInt(id_raw);
+            ProductDAO p = new ProductDAO();
+            p.delete(id);
+            response.sendRedirect("admin");
+        } catch (NumberFormatException e) {
+        }
     }
 
     /**

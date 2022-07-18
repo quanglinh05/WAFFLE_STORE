@@ -4,6 +4,7 @@
  */
 package controller.sync;
 
+import dal.AccountDAO;
 import dal.CategoryDAO;
 import dal.ProductDAO;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Account;
 import model.Category;
 import model.Product;
 
@@ -39,6 +41,9 @@ public class HomeController extends HttpServlet {
         List<Category> listCategories = new CategoryDAO().getAllCategories();
         HttpSession session = request.getSession();
         session.setAttribute("listCategories", listCategories);
+        
+//        List<Account> listAccounts = new AccountDAO().getAllAccounts();
+//        session.setAttribute("listAccounts", listAccounts);
 
         int page = 1;
         String pageStr = request.getParameter("page");
@@ -56,6 +61,8 @@ public class HomeController extends HttpServlet {
         request.setAttribute("totalPage", totalPage);
         request.setAttribute("listProducts", listProducts);
         session.setAttribute("urlHistory", "home");
+        
+//        request.setAttribute("listAccounts", listAccounts);
 
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }

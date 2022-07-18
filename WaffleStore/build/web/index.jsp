@@ -28,7 +28,7 @@
         <header class="bg-secondary py-5" style="width: 100%">
             <div class="container px-4 px-lg-4 my-3">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-normal" style="font-size: 70px; width: 100%">WANGLING WAFFLE</h1>
+                    <h1 class="display-4 fw-normal" style="font-size: 70px; width: 100%">WAFFLE STORE</h1>
                     <p class="lead fw-normal text-white-50 mb-0">WELCOME TO OUR VANS - ERA</p>
                 </div>
             </div>
@@ -44,7 +44,24 @@
                             <li class="list-group-item"><a href="filter-category?categoryId=${C.id}">${C.name}</a></li>
                             </c:forEach>
                     </ul>
-                </div>
+                    </div>
+<!--                    <ul class="list-group">
+                        <%--<c:forEach items="${sessionScope.listAccounts}" var="A">--%>
+                        <li class="list-group-item"><a href="filter-account?accountId=${A.id}">${A.username}</a></li>
+                        <%--</c:forEach>--%>
+                    </ul>  -->
+                <!--</div>-->
+                
+                <!--<div class="col-md-9">-->
+                    <%--<c:forEach items="${listAccounts}" var="A">--%>
+                        <!--<a>${A.password}</a><br>-->
+<!--                        <a>${A.displayName}</a><br>
+                        <a>${A.address}</a><br>
+                        <a>${A.email}</a><br>
+                        <a>${A.phone}</a><br>-->
+                    <%--</c:forEach>--%>
+                <!--</div>-->
+                
                 <div class="col-md-9">
                     <c:choose>
                         <c:when test="${listProducts==null || listProducts.size()==0}">
@@ -99,24 +116,23 @@
                     </div>                   
                 </div>
             </div>
-
         </div>
     </secti>
     <%@include file="components/footerComponent.jsp" %>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        function addToCartAsync(productId) {
-            axios.get('add-to-cart-async', {
-                params: {
-                    productId: productId
-                }
-            }).then((response)=>{
-               //lấy data thành công
-               document.getElementById("cart_number").innerHTML = response.data;
-               
-               //cập nhật view
-            })
-        }
+                                            function addToCartAsync(productId) {
+                                                axios.get('add-to-cart-async', {
+                                                    params: {
+                                                        productId: productId
+                                                    }
+                                                }).then((response) => {
+                                                    //lấy data thành công
+                                                    document.getElementById("cart_number").innerHTML = response.data;
+
+                                                    //cập nhật view
+                                                })
+                                            }
     </script>
 </body>
 </html>

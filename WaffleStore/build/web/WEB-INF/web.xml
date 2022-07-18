@@ -49,16 +49,32 @@
         <servlet-class>controller.sync.LogoutController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AdminController</servlet-name>
-        <servlet-class>controller.sync.AdminController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AddToCartAsyncController</servlet-name>
         <servlet-class>controller.async.AddToCartAsyncController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUpController</servlet-name>
         <servlet-class>controller.sync.SignUpController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FilterAccountController</servlet-name>
+        <servlet-class>controller.sync.FilterAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>controller.sync.AdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAccountController</servlet-name>
+        <servlet-class>controller.sync.UpdateAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeactiveAccountController</servlet-name>
+        <servlet-class>controller.sync.DeactiveAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductController</servlet-name>
+        <servlet-class>controller.sync.DeleteProductController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
@@ -108,10 +124,6 @@
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AdminController</servlet-name>
-        <url-pattern>/admin/dashboard</url-pattern>
-    </servlet-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern/>
@@ -127,6 +139,26 @@
     <servlet-mapping>
         <servlet-name>SignUpController</servlet-name>
         <url-pattern>/signup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterAccountController</servlet-name>
+        <url-pattern>/filter-account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAccountController</servlet-name>
+        <url-pattern>/updateA</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeactiveAccountController</servlet-name>
+        <url-pattern>/deactive</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductController</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
