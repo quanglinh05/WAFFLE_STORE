@@ -203,12 +203,12 @@ public class ProductDAO extends DBContext {
                 + "           (?,?,?,?,?,?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(2, p.getName());
-            st.setInt(3, p.getQuantity());
-            st.setDouble(4, p.getPrice());
-            st.setString(5, p.getDescription());
-            st.setString(6, p.getImageUrl());
-            st.setInt(7, p.getCategory_Id());
+            st.setString(1, p.getName());
+            st.setInt(2, p.getQuantity());
+            st.setDouble(3, p.getPrice());
+            st.setString(4, p.getDescription());
+            st.setString(5, p.getImageUrl());
+            st.setInt(6, p.getCategory_Id());
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -224,6 +224,50 @@ public class ProductDAO extends DBContext {
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+
+    public void insert(String name, int quantity, double price, String description, String imageUrl, int categoryId) {
+        String sql = "INSERT INTO [dbo].[Product]\n"
+                + "           ([name]\n"
+                + "           ,[quantity]\n"
+                + "           ,[price]\n"
+                + "           ,[description]\n"
+                + "           ,[imageUrl]\n"
+                + "           ,[category_id])\n"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.setInt(2, quantity);
+            st.setDouble(3, price);
+            st.setString(4, description);
+            st.setString(5, imageUrl);
+            st.setInt(6, categoryId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void update(int id, int quantity, double price, String description, String imageUrl) {
+        String sql = "UPDATE [dbo].[Product]\n"
+                + "   SET \n"
+                + "      [quantity] = ?\n"
+                + "      ,[price] = ?\n"
+                + "      ,[description] = ?\n"
+                + "      ,[imageUrl] = ?\n"
+                + " WHERE id=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quantity);
+            st.setDouble(2, price);
+            st.setString(3, description);
+            st.setString(4, imageUrl);
+            st.setInt(5, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
         }
     }
 }

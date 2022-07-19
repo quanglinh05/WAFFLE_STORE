@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Add new a Product</h1>
+        <h1>Add a new Product</h1>
         <h3 style="color: red">${requestScope.error}</h3>
         <form action="add">
             enter ID:<input type="number" name="id" readonly=""><br/>

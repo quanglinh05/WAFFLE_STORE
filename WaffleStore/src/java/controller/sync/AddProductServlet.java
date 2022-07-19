@@ -4,7 +4,6 @@
  */
 package controller.sync;
 
-import dal.AccountDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,15 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Account;
 import model.Product;
 
 /**
  *
  * @author DELL
  */
-public class AdminController extends HttpServlet {
+public class AddProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +36,10 @@ public class AdminController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListServlet</title>");
+            out.println("<title>Servlet AddProductServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddProductServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,15 +58,17 @@ public class AdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        AccountDAO a = new AccountDAO();
-        List<Account> listAccounts = a.getAllAccounts();
+        request.setCharacterEncoding("UTF-8");
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String quantity = request.getParameter("quantity");
+        String price = request.getParameter("price");
+        String description = request.getParameter("description");
+        String imageUrl = request.getParameter("imageUrl");
+        String categoryId = request.getParameter("categoryId");
         ProductDAO p = new ProductDAO();
-        List<Product> listProducts = p.getAllProducts();
-        
-        request.setAttribute("listAccounts", listAccounts);
-        request.setAttribute("listProducts", listProducts);
-        
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        p.insert(name, Integer.parseInt(quantity), Double.parseDouble(price), description, imageUrl, Integer.parseInt(categoryId));
+        response.sendRedirect("admin");
     }
 
     /**

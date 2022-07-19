@@ -21,7 +21,7 @@
     </head>
     <body>
         <h1>MANAGER ACCOUNT</h1>
-        <table border="1">
+        <table border="1" width="40%">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -51,10 +51,11 @@
                 </c:forEach>
             </tbody>
         </table>
-
+        <br>
+        <br>
         <h1>MANAGER PRODUCT</h1>
         <h3><a href="add.jsp">Add New</a></h3>
-        <table border="1">
+        <table border="1" width="40%">
             <thead>
                 <tr>
                     <th>ID</th>
